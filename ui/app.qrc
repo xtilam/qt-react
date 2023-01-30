@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>core.js</file>
+        <file>main.js</file>
+        <file>app.ico</file>
+    </qresource>
+</RCC>
