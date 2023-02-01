@@ -28,10 +28,10 @@ extern "C" QML_DLL_EXPORT void __stdcall addExtension(BaseExtension * extension)
 
 namespace Au3Callback{
 namespace CallbackType{
-    typedef void (*handleSignal)(LPCSTR signal, LPDISPATCH params);
+    typedef void (*handleCallActionType)(LPCSTR signal, LPDISPATCH params);
     typedef void (*onReload)();
 }
-    inline CallbackType::handleSignal handleSignal = nullptr;
+    inline CallbackType::handleCallActionType handleCallAction = nullptr;
     inline CallbackType::onReload onReload = nullptr;
 }
 

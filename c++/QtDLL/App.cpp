@@ -3,9 +3,13 @@
 #include <QDir>
 #include "extensions/QtElementExtensions.h"
 #include <QTimer>
+#include "elements/widgets/QtWindow.h"
+#include "EnumDefine.h"
 
 App::App(QObject *parent) : QObject(parent)
 {
+    this->addJS("core.js");
+    qDebug() << "init app";
 #ifdef _RE_DEV
     static int qtargc = 2;
     static char * qtargv[2];
@@ -16,15 +20,19 @@ App::App(QObject *parent) : QObject(parent)
     this->app = new QApplication(qtargc, qtargv);
     this->app->processEvents();
     this->isDev = true;
+    this->addJS("module.dev.bundle.js");
 #else
     this->app = new QApplication(__argc, __argv);
     this->isDev = false;
+    this->app->processEvents();
+    this->addJS("module.bundle.js");
 #endif
     this->au3 = new Au3;
     this->_loop = &App::action_reloadLoop;
-    this->addJS("core.js");
     this->addExtension(new QtElementExtensions);
+    qmlRegisterType<App>("react.App", 1, 0, "App");
 }
+
 
 void App::useStyle(QString style)
 {
@@ -58,10 +66,10 @@ void App::checkReload()
 
 void App::action_reloadLoop()
 {
-    this->app->processEvents();
+    static auto qtEnums = new EnumDefine;
     if(!this->jsEngine){
+        this->jsEngine = new QJSEngine;
 #ifdef _RE_DEV
-        this->jsEngine = new QQmlApplicationEngine;
         App::checkReload();
         std::thread reloadThread([](App * app){
             while(true){
@@ -70,16 +78,17 @@ void App::action_reloadLoop()
             }
         }, this);
         reloadThread.detach();
-#else
-        this->jsEngine = new QJSEngine;
 #endif
+        this->mainWindow = new QtWindow;
         for(auto ext = this->extensions.begin(); ext != this->extensions.end(); ext++){
             (*ext)->setupInit();
         }
     }else{
         delete this->jsEngine;
-        this->jsEngine = new QQmlApplicationEngine;
+        this->jsEngine = new QJSEngine;
+        this->mainWindow->window->reset();
     }
+    engine()->installExtensions(QJSEngine::AllExtensions);
     if(this->style.length()){
         QFile file(getRCPath(this->style));
         if(file.exists()){
@@ -90,10 +99,16 @@ void App::action_reloadLoop()
             qDebug() << "not found css file: " << getRCPath(this->style);
         }
     }
-    (new ObjectContext)->setName("app")->setObject(this)->setData(this->jsEngine);
+    jsEngine->evaluate("this.window = this; this.Qt = {};");
+
+    ObjectContext().setName("app")->setObject(this)->setData(this->jsEngine)
+            ->setName("defaultWindow")->setObject(mainWindow)->setData(this->jsEngine)
+            ->setName("au3")->setObject(au3)->setData(this->jsEngine);
+    qtEnums->setup(this->jsEngine);
     for(auto ext = this->extensions.begin(); ext != this->extensions.end(); ext++){
         (*ext)->setAllObject();
     }
+
     for(auto ext = this->extensions.begin(); ext != this->extensions.end(); ext++){
         (*ext)->setupEngine();
     }
@@ -101,9 +116,7 @@ void App::action_reloadLoop()
         auto filePath = getRCPath(*jsFile);
         QFile file(filePath);
         if(file.exists()){
-            file.open(QIODevice::ReadOnly);
-            this->jsEngine->evaluate(file.readAll(), filePath);
-            file.close();
+            jsEngine->importModule(filePath);
         }else{
             qDebug() << "not found js file: " << filePath;
         }

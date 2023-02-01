@@ -2,101 +2,136 @@
 
 QWidgetCustom::QWidgetCustom(QWidget *parent) : QWidget(parent)
 {
-
+    static QMap<QString, int> map = {
+		{"onMousePress", Signals::signal_onMousePress},
+		{"onMouseRelease", Signals::signal_onMouseRelease},
+		{"onMouseDoubleClick", Signals::signal_onMouseDoubleClick},
+		{"onMouseMove", Signals::signal_onMouseMove},
+		{"onWheel", Signals::signal_onWheel},
+		{"onKeyPress", Signals::signal_onKeyPress},
+		{"onKeyRelease", Signals::signal_onKeyRelease},
+		{"onEnter", Signals::signal_onEnter},
+		{"onLeave", Signals::signal_onLeave},
+		{"onMove", Signals::signal_onMove},
+		{"onDragEnter", Signals::signal_onDragEnter},
+		{"onDragMove", Signals::signal_onDragMove},
+		{"onDragLeave", Signals::signal_onDragLeave},
+		{"onResize", Signals::signal_onResize},
+	};
+    countConnection.setMap(&map);
 }
 
 
 void QWidgetCustom::mousePressEvent(QMouseEvent *event)
 {
-	emit evt_mousePressEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onMousePress)) return;
+    QOMouseEvent evt;
+    emit onMousePress(evt.setEvt(event));
 }
 
 void QWidgetCustom::mouseReleaseEvent(QMouseEvent *event)
 {
-	emit evt_mouseReleaseEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onMouseRelease)) return;
+    QOMouseEvent evt;
+    emit onMouseRelease(evt.setEvt(event));
 }
 
 void QWidgetCustom::mouseDoubleClickEvent(QMouseEvent *event)
 {
-	emit evt_mouseDoubleClickEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onMouseDoubleClick)) return;
+    QOMouseEvent evt;
+    emit onMouseDoubleClick(evt.setEvt(event));
 }
 
 void QWidgetCustom::mouseMoveEvent(QMouseEvent *event)
 {
-	emit evt_mouseMoveEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onMouseMove)) return;
+    QOMouseEvent evt;
+    emit onMouseMove(evt.setEvt(event));
 }
 
 void QWidgetCustom::wheelEvent(QWheelEvent *event)
 {
-	emit evt_wheelEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onWheel)) return;
+	emit onWheel(event);
 }
 
 void QWidgetCustom::keyPressEvent(QKeyEvent *event)
 {
-	emit evt_keyPressEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onKeyPress)) return;
+	emit onKeyPress(event);
 }
 
 void QWidgetCustom::keyReleaseEvent(QKeyEvent *event)
 {
-	emit evt_keyReleaseEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onKeyRelease)) return;
+	emit onKeyRelease(event);
 }
 
 void QWidgetCustom::focusInEvent(QFocusEvent *event)
 {
-	emit evt_focusInEvent(event);
+    emit onFocusChanged(true);
 }
 
 void QWidgetCustom::focusOutEvent(QFocusEvent *event)
 {
-	emit evt_focusOutEvent(event);
+    emit onFocusChanged(false);
 }
 
 void QWidgetCustom::enterEvent(QEvent *event)
 {
-	emit evt_enterEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onEnter)) return;
+	emit onEnter(event);
 }
 
 void QWidgetCustom::leaveEvent(QEvent *event)
 {
-	emit evt_leaveEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onLeave)) return;
+	emit onLeave(event);
 }
 
 void QWidgetCustom::moveEvent(QMoveEvent *event)
 {
-	emit evt_moveEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onMove)) return;
+	emit onMove(event);
 }
 
 void QWidgetCustom::closeEvent(QCloseEvent *event)
 {
-	emit evt_closeEvent(event);
+    emit onClose();
 }
 
 void QWidgetCustom::dragEnterEvent(QDragEnterEvent *event)
 {
-	emit evt_dragEnterEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onDragEnter)) return;
+	emit onDragEnter(event);
 }
 
 void QWidgetCustom::dragMoveEvent(QDragMoveEvent *event)
 {
-	emit evt_dragMoveEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onDragMove)) return;
+	emit onDragMove(event);
 }
 
 void QWidgetCustom::dragLeaveEvent(QDragLeaveEvent *event)
 {
-	emit evt_dragLeaveEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onDragLeave)) return;
+	emit onDragLeave(event);
 }
 
 void QWidgetCustom::showEvent(QShowEvent *event)
 {
-	emit evt_showEvent(event);
+    emit onShow();
 }
 
 void QWidgetCustom::hideEvent(QHideEvent *event)
 {
-	emit evt_hideEvent(event);
+    emit onHide();
 }
 
 void QWidgetCustom::resizeEvent(QResizeEvent *event)
 {
-	emit evt_resizeEvent(event);
+	if(countConnection.isNotExistsConnection(signal_onResize)) return;
+    QOResizeEvent evt;
+    emit onResize(evt.setEvt(event));
 }

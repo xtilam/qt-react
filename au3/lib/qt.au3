@@ -1,29 +1,29 @@
 
 #include-once
 
-Global $JS_DebugerPort = 9999
+Global $JS_DebugerPort = '4444,4445'
 Global $Qt_DLL = 0
 Global $OBJ_DLL = 0
 
-Opt("TrayIconHide", 1)
+;~ Opt("TrayIconHide", 1)
 
 If $Qt_DLL = 0 Then
 	$OBJ_DLL = DllOpen('obj.dll')
 	$Qt_DLL = DllOpen('qml.dll') 
-
+ 
 	If $OBJ_DLL = -1 Or $Qt_DLL = -1 Then
 		ConsoleWrite('Cannot load DLL' & @CRLF)
 		Exit
 	EndIf
 
-	If Not $JS_DebugerPort Then $JS_DebugerPort = 1234
+	If Not $JS_DebugerPort Then $JS_DebugerPort = 4444
+	
 	Qt_setDebugPort($JS_DebugerPort)
-
-	DllCall($Qt_DLL, 'none', 'initApplication')
-
-	If Not @Compiled Then
+	If Not @Compiled Then 
 		Qt_enableDebug()
 	EndIf
+	DllCall($Qt_DLL, 'none', 'initApplication')
+
 
 	Local $methods = DllCall($OBJ_DLL, 'ptr', 'getAllMethods')[0]
 	DllCall($Qt_DLL, 'none', 'setComMethods', 'ptr', $methods)
@@ -39,7 +39,6 @@ If $Qt_DLL = 0 Then
 EndIf
 
 Func Qt_mainHandleSignal($func, $p)
-
 	Local $lastIndex = $p.length - 1
 	Local $start = ''
 	$strExecute = $func & '('

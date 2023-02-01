@@ -1,8 +1,15 @@
 #include "QtWindow.h"
+#include <QDebug>
 
 QtWindow::QtWindow(QObject *parent) : BaseWidgetElement(parent)
 {
+    this->window = new QWindowCustom;
+}
 
+QtWindow::~QtWindow()
+{
+    qDebug() << "window deleted";
+    delete this->window;
 }
 
 
@@ -33,7 +40,7 @@ int QtWindow::r_y()
 
 void QtWindow::w_y(int y)
 {
-    window->move(window->y(), y);
+    window->move(window->x(), y);
 }
 
 int QtWindow::r_width()
@@ -90,7 +97,7 @@ void QtWindow::insertBefore(QtElement *el, QtElement *beforeEl)
 
 }
 
-void QtWindow::removeElement(QtElement *el)
+void QtWindow::removeChild(QtElement *el)
 {
 
 }

@@ -1,67 +1,104 @@
 #include "QWindowCustom.h"
+#include <QDebug>
+#include <QMetaMethod>
 
 QWindowCustom::QWindowCustom(QWidget *parent) : QMainWindow(parent)
 {
-
+    static QMap<QString, int> map = {
+         {"onMousePress", signal_onMousePress},
+         {"onMouseRelease", signal_onMouseRelease},
+         {"onMouseDoubleClick", signal_onMouseDoubleClick},
+         {"onMouseMove", signal_onMouseMove},
+         {"onKeyPress", signal_onKeyPress},
+         {"onKeyRelease", signal_onKeyRelease},
+         {"onResize", signal_onResize},
+     };
+    this->countConnection.setMap(&map);
 }
 
+void QWindowCustom::reset()
+{
+    countConnection.reset();
+}
 
 void QWindowCustom::mousePressEvent(QMouseEvent *event)
 {
-	emit evt_mousePressEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onMousePress)) return;
+	QOMouseEvent evt;
+	emit onMousePress(evt.setEvt(event));
 }
 
 void QWindowCustom::mouseReleaseEvent(QMouseEvent *event)
 {
-	emit evt_mouseReleaseEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onMouseRelease)) return;
+	QOMouseEvent evt;
+	emit onMouseRelease(evt.setEvt(event));
 }
 
 void QWindowCustom::mouseDoubleClickEvent(QMouseEvent *event)
 {
-	emit evt_mouseDoubleClickEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onMouseDoubleClick)) return;
+	QOMouseEvent evt;
+	emit onMouseDoubleClick(evt.setEvt(event));
 }
 
 void QWindowCustom::mouseMoveEvent(QMouseEvent *event)
 {
-	emit evt_mouseMoveEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onMouseMove)) return;
+	QOMouseEvent evt;
+	emit onMouseMove(evt.setEvt(event));
 }
 
 void QWindowCustom::keyPressEvent(QKeyEvent *event)
 {
-	emit evt_keyPressEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onKeyPress)) return;
+	emit onKeyPress(event);
 }
 
 void QWindowCustom::keyReleaseEvent(QKeyEvent *event)
 {
-	emit evt_keyReleaseEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onKeyRelease)) return;
+	emit onKeyRelease(event);
 }
 
 void QWindowCustom::focusInEvent(QFocusEvent *event)
 {
-	emit evt_focusInEvent(event);
+    emit onFocusChange(true);
 }
 
 void QWindowCustom::focusOutEvent(QFocusEvent *event)
 {
-	emit evt_focusOutEvent(event);
+    emit onFocusChange(false);
 }
 
 void QWindowCustom::resizeEvent(QResizeEvent *event)
 {
-	emit evt_resizeEvent(event);
+    if(countConnection.isNotExistsConnection(signal_onResize)) return;
+    QOResizeEvent evt;
+    emit onResize(evt.setEvt(event));
 }
 
 void QWindowCustom::closeEvent(QCloseEvent *event)
 {
-	emit evt_closeEvent(event);
+    emit onClose();
 }
 
 void QWindowCustom::showEvent(QShowEvent *event)
 {
-	emit evt_showEvent(event);
+    emit onShow();
 }
 
 void QWindowCustom::hideEvent(QHideEvent *event)
 {
-	emit evt_hideEvent(event);
+    emit onHide();
+}
+
+void QWindowCustom::connectNotify(const QMetaMethod &signal)
+{
+    countConnection.onConnectSignal(signal);
+}
+
+void QWindowCustom::disconnectNotify(const QMetaMethod &signal)
+{
+    countConnection.onDisconnectSignal(signal);
 }

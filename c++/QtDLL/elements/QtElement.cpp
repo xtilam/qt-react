@@ -1,4 +1,11 @@
 #include "QtElement.h"
+#include <QDebug>
+#include "exports.h"
+
+QObject *QtElement::r_ownerDocument()
+{
+    return this;
+}
 
 QtElement::QtElement(QObject * parent) : QObject(parent)
 {
@@ -49,11 +56,17 @@ void QtElement::removeAttribute(QString key)
 
 }
 
-QtElement *QtElement::createElement(QString tagName)
+QObject *QtElement::createElement(QString tagName)
 {
     auto action = listInitTag[tagName];
     if(action) return action();
+    app->engine()->throwError("cannot create element tag name: " + tagName);
     return nullptr;
+}
+
+void QtElement::appendChild(QtElement *el)
+{
+
 }
 
 void QtElement::insertBefore(QtElement *el, QtElement *beforeEl)
@@ -61,7 +74,7 @@ void QtElement::insertBefore(QtElement *el, QtElement *beforeEl)
 
 }
 
-void QtElement::removeElement(QtElement *el)
+void QtElement::removeChild(QtElement *el)
 {
 
 }

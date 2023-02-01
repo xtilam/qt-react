@@ -21,7 +21,7 @@ module.exports = {
 	},
 	output: {
 		path: path.dirname(config.targetJS),
-		filename: `module${isProduction ? '' : 'dev'}.bundle.js`,
+		filename: `module${isProduction ? '' : '.dev'}.bundle.js`,
 	},
 	devtool: false,
 	resolve: {

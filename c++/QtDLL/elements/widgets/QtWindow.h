@@ -9,7 +9,7 @@ class QtWindow : public BaseWidgetElement
     Q_OBJECT
 public:
     explicit QtWindow(QObject *parent = nullptr);
-
+    ~QtWindow();
     // QtElement interface
 public:
     QWindowCustom * window;
@@ -44,7 +44,7 @@ public slots:
     void setAttribute(QString key, QString value) override;
     void removeAttribute(QString key) override;
     void insertBefore(QtElement *el, QtElement *beforeEl) override;
-    void removeElement(QtElement *el) override;
+    void removeChild(QtElement *el) override;
 };
 
 #endif // QTWINDOW_H

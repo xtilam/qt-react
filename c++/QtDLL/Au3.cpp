@@ -237,13 +237,13 @@ QList<QVariant> Au3::getUIData()
     return result;
 }
 
-void Au3::sendSignal(QString signal, QJSValue data)
+void Au3::call(QString signal, QJSValue data)
 {
     if(data.isArray()){
         auto arr = BaseObject::init<CArray>();
         auto listVariant = data.toVariant().toList();
         setDataCArrayFromListVariant(arr, &listVariant);
-        Au3Callback::handleSignal(signal.toStdString().c_str(), arr->comobject);
+        Au3Callback::handleCallAction(signal.toStdString().c_str(), arr->comobject);
     }
 }
 

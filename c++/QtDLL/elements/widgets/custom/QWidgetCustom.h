@@ -2,10 +2,28 @@
 #define QWIDGETCUSTOM_H
 
 #include <QWidget>
+#include "CountConnection.h"
 
 class QWidgetCustom : public QWidget
 {
     Q_OBJECT
+    CountConnection countConnection;
+    enum Signals{
+		signal_onMousePress,
+		signal_onMouseRelease,
+		signal_onMouseDoubleClick,
+		signal_onMouseMove,
+		signal_onWheel,
+		signal_onKeyPress,
+		signal_onKeyRelease,
+		signal_onEnter,
+		signal_onLeave,
+		signal_onMove,
+		signal_onDragEnter,
+		signal_onDragMove,
+		signal_onDragLeave,
+		signal_onResize,
+    };
 public:
     explicit QWidgetCustom(QWidget *parent = nullptr);
 protected:
@@ -29,25 +47,25 @@ protected:
     void hideEvent(QHideEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 signals:
-	void evt_mousePressEvent(QMouseEvent *event);
-	void evt_mouseReleaseEvent(QMouseEvent *event);
-	void evt_mouseDoubleClickEvent(QMouseEvent *event);
-	void evt_mouseMoveEvent(QMouseEvent *event);
-	void evt_wheelEvent(QWheelEvent *event);
-	void evt_keyPressEvent(QKeyEvent *event);
-	void evt_keyReleaseEvent(QKeyEvent *event);
-	void evt_focusInEvent(QFocusEvent *event);
-	void evt_focusOutEvent(QFocusEvent *event);
-	void evt_enterEvent(QEvent *event);
-	void evt_leaveEvent(QEvent *event);
-	void evt_moveEvent(QMoveEvent *event);
-	void evt_closeEvent(QCloseEvent *event);
-	void evt_dragEnterEvent(QDragEnterEvent *event);
-	void evt_dragMoveEvent(QDragMoveEvent *event);
-	void evt_dragLeaveEvent(QDragLeaveEvent *event);
-	void evt_showEvent(QShowEvent *event);
-	void evt_hideEvent(QHideEvent *event);
-    void evt_resizeEvent(QResizeEvent *event);
+    void onResize(QOResizeEvent *event);
+    void onMousePress(QOMouseEvent *event);
+    void onMouseRelease(QOMouseEvent *event);
+    void onMouseDoubleClick(QOMouseEvent *event);
+    void onMouseMove(QOMouseEvent *event);
+	void onWheel(QWheelEvent *event);
+	void onKeyPress(QKeyEvent *event);
+	void onKeyRelease(QKeyEvent *event);
+    void onFocusChanged(bool isFocus);
+	void onEnter(QEvent *event);
+	void onLeave(QEvent *event);
+	void onMove(QMoveEvent *event);
+	void onDragEnter(QDragEnterEvent *event);
+	void onDragMove(QDragMoveEvent *event);
+	void onDragLeave(QDragLeaveEvent *event);
+    void onShow();
+    void onHide();
+    void onClose();
+
 };
 
 #endif // QWIDGETCUSTOM_H

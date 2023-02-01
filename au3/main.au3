@@ -9,6 +9,7 @@ Func main()
 	Qt_ProcessEvents()
 
 	While True
+
 		Qt_ProcessEvents()
 	WEnd
 EndFunc   ;==>main
@@ -24,3 +25,10 @@ Func onReload()
 ;~ 		) _
 ;~ )
 EndFunc   ;==>onReload
+
+Func writeFile($name, $content)
+	Local $path = @ScriptDir & '\data\' & $name
+	Local $fileHandle = FileOpen($path, 10)
+	ConsoleWrite($content)
+	FileWrite($path, $content)
+EndFunc

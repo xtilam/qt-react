@@ -56,8 +56,8 @@ ObjectContext *ObjectContext::setName(QString name)
 
 ObjectContext *ObjectContext::setData(QJSEngine *engine)
 {
-    QString jsName = "_context_" + this->name;
-    QString setString = "var " + this->name + "=" + jsName + ".data; delete this." + jsName;
+    QString jsName = "_context_";
+    QString setString = this->name + "=_context_.data; delete _context_;";
     engine->globalObject().setProperty(jsName, engine->newQObject(this));
     engine->evaluate(setString);
     return this;

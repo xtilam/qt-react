@@ -46,7 +46,7 @@ void setComMethods(void **methods)
 
 void configMethods(void **methods)
 {
-    Au3Callback::handleSignal = (Au3Callback::CallbackType::handleSignal) methods[0];
+    Au3Callback::handleCallAction = (Au3Callback::CallbackType::handleCallActionType) methods[0];
     Au3Callback::onReload = (Au3Callback::CallbackType::onReload) methods[1];
 }
 

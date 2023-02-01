@@ -29,7 +29,7 @@ public:
 public slots:
     void registerUI(QJSValue listNames, QString name, int id);
     QList<QVariant> getUIData();
-    void sendSignal(QString signal, QJSValue data);
+    void call(QString signal, QJSValue data);
     void _exit();
 signals :
     void au3Reload();

@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>core.js</file>
         <file>main.js</file>
+        <file>module.dev.bundle.js</file>
         <file>app.ico</file>
     </qresource>
 </RCC>

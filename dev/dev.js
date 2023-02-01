@@ -52,29 +52,31 @@ async function main() {
             }
 
             
-            let currentProcess = spawnExec(path.join(config.au3Path, 'AutoIt3_x64.exe'), [
-				autoIt3WrapperAu3Path,
-                '/run',
-                '/x64',
-                '/prod',
-                '/ErrorStdOut',
-                '/in',
-                `${config.mainAu3Path}`,
-            ],
-                {
-                    env: config.au3DevEnv,
-                }
-            )
-
-            currentProcess.on('exit', (exitCode) => {
-                if (au3Process !== currentProcess) return
-                console.log('=> exit au3 app\n'.red.bold)
-            })
-
-            au3Process = currentProcess
-
-            isStartApp = false
-        }, 500)
+            setTimeout(()=>{
+				let currentProcess = spawnExec(path.join(config.au3Path, 'AutoIt3_x64.exe'), [
+					autoIt3WrapperAu3Path,
+					'/run',
+					'/x64',
+					'/prod',
+					'/ErrorStdOut',
+					'/in',
+					`${config.mainAu3Path}`,
+				],
+					{
+						env: config.au3DevEnv,
+					}
+				)
+	
+				currentProcess.on('exit', (exitCode) => {
+					if (au3Process !== currentProcess) return
+					console.log('=> exit au3 app\n'.red.bold)
+				})
+	
+				au3Process = currentProcess
+	
+				isStartApp = false
+			}, 500)
+        },)
     }
 
     async function watchOtherBuild(source, dest, timeCopy = 3000) {
