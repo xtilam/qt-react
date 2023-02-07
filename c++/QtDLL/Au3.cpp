@@ -1,7 +1,8 @@
 #include "Au3.h"
 #include <QDebug>
-#include "exports.h"
-#include "com_object/AllComObject.h"
+
+#include "COExports.h"
+#include "core/com_object/AllComObject.h"
 
 void Au3::registerUI_removeSubObject_Recursive(UIObject *obj)
 {
@@ -9,8 +10,8 @@ void Au3::registerUI_removeSubObject_Recursive(UIObject *obj)
         m_ids.push_back(obj->methodId);
         qDebug() << "remove " << obj->methodId;
     }else{
-        for(auto &item: obj->mapObject){
-            this->registerUI_removeSubObject_Recursive(item.second);
+        for(auto &item: obj->map){
+            this->registerUI_removeSubObject_Recursive(item);
         }
     }
 }
@@ -53,9 +54,9 @@ void Au3::pushVariantFromCVariant(QList<QVariant> *arr, CVariant *variant)
         CObject * obj;
         variant->getObject(&obj);
         QMap<QString, QVariant> map;
-        for(auto &i: obj->mapIndex){
-            QString key = QString::fromStdWString(i.first);
-            setPropertyVariantFromObject(&map, &key, obj->mapData[i.second]);
+        for(auto iter = obj->map.begin(); iter != obj->map.end(); iter ++){
+            QString key = QString::fromStdWString(iter.key());
+            setPropertyVariantFromObject(&map, &key, iter.value());
         }
         arr->push_back(map);
     }
@@ -103,9 +104,9 @@ void Au3::setPropertyVariantFromObject(QMap<QString, QVariant> *map, QString* ke
         QMap<QString, QVariant> subMap;
         CObject * obj;
         variant->getObject(&obj);
-        for(auto &i: obj->mapIndex){
-            QString key = QString::fromStdWString(i.first);
-            setPropertyVariantFromObject(&subMap, &key, obj->mapData[i.second]);
+        for(auto iter = obj->map.begin(); iter != obj->map.end(); iter ++){
+            QString key = QString::fromStdWString(iter.key());
+            setPropertyVariantFromObject(&subMap, &key, iter.value());
         }
         (*map)[*key] = subMap;
         break;
@@ -136,7 +137,7 @@ void Au3::setDataCArrayFromListVariant(CArray *arr, QList<QVariant> *listItem)
             case QVariant::Map:
             {
                 auto subMap = item.toMap();
-                CObject * subObj = BaseObject::init<CObject>();
+                CObject * subObj = new CObject;
                 setDataCObjectFromMapVariant(subObj, &subMap);
                 variant->setValueFromObject(subObj);
                 break;
@@ -144,7 +145,7 @@ void Au3::setDataCArrayFromListVariant(CArray *arr, QList<QVariant> *listItem)
 
             case QVariant::List:
             {
-                CArray * subArr = BaseObject::init<CArray>();
+                CArray * subArr = new CArray;
                 auto subList = item.toList();
                 variant->setValueFromObject(subArr);
                 setDataCArrayFromListVariant(subArr, &subList);
@@ -183,14 +184,14 @@ void Au3::setDataCObjectFromMapVariant(CObject *obj, QMap<QString, QVariant> *ma
             case QVariant::Map:
             {
                 auto subMap = item->toMap();
-                CObject * subObj = BaseObject::init<CObject>();
+                CObject * subObj = new CObject;
                 setDataCObjectFromMapVariant(subObj, &subMap);
                 variant->setValueFromObject(subObj);
                 break;
             }
             case QVariant::List:
             {
-                CArray * subArr = BaseObject::init<CArray>();
+                CArray * subArr = new CArray;
                 auto subList = item->toList();
                 setDataCArrayFromListVariant(subArr, &subList);
                 variant->setValueFromObject(subArr);
@@ -208,7 +209,7 @@ void Au3::registerUI(QJSValue listNames, QString name, int id)
 {
     auto list = listNames.toVariant().toList();
 
-    UIObject * obj = app->ui;
+    UIObject * obj = objExport->app->ui;
     UIObject * itemObj = nullptr;
 
     for (auto &item: list) {
@@ -240,10 +241,10 @@ QList<QVariant> Au3::getUIData()
 void Au3::call(QString signal, QJSValue data)
 {
     if(data.isArray()){
-        auto arr = BaseObject::init<CArray>();
+        auto arr = new CArray;
         auto listVariant = data.toVariant().toList();
         setDataCArrayFromListVariant(arr, &listVariant);
-        Au3Callback::handleCallAction(signal.toStdString().c_str(), arr->comobject);
+        COExports::handleCallAction(signal.toStdString().c_str(), arr->comobject);
     }
 }
 

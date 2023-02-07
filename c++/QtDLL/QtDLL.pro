@@ -3,78 +3,89 @@ QT += qml widgets
 TEMPLATE = lib
 DEFINES += QML_DLL_LIBRARY
 CONFIG += c++17
+DEFINES *= QT_USE_QSTRINGBUILDER
 
 SOURCES += \
     App.cpp \
     Au3.cpp \
+    COExports.cpp \
     EnumDefine.cpp \
     Utils.cpp \
-    com_object/BaseObject.cpp \
-    com_object/CArray.cpp \
-    com_object/CObject.cpp \
-    com_object/CParams.cpp \
-    com_object/CVariant.cpp \
-    com_object/CDebugger.cpp \
-    com_object/UIObject.cpp \
-    elements/layouts/BaseLayout.cpp \
-    elements/widgets/BaseWidgetElement.cpp \
-    elements/QtElement.cpp \
-    elements/widgets/custom/CountConnection.cpp \
-    elements/widgets/events/BaseQObjectConvert.cpp \
-    elements/widgets/events/QOFocusEvent.cpp \
-    elements/widgets/events/QOKeyEvent.cpp \
-    elements/widgets/events/QOMouseEvent.cpp \
-    elements/widgets/events/QOPoint.cpp \
-    elements/widgets/events/QOPointF.cpp \
-    elements/widgets/events/QOResizeEvent.cpp \
-    elements/widgets/QtButton.cpp \
-    elements/widgets/QtWidget.cpp \
-    elements/widgets/QtWindow.cpp \
-    elements/layouts/RowLayout.cpp \
-    elements/widgets/custom/QWidgetCustom.cpp \
-    elements/widgets/custom/QWindowCustom.cpp \
-    elements/widgets/custom/QtPushButton.cpp \
-    elements/widgets/events/QOSize.cpp \
-    exports.cpp \
-    extensions/BaseExtension.cpp \
-    extensions/QtElementExtensions.cpp
+    core/com_object/BaseObject.cpp \
+    core/com_object/CArray.cpp \
+    core/com_object/CObject.cpp \
+    core/com_object/CParams.cpp \
+    core/com_object/CVariant.cpp \
+    core/com_object/CDebugger.cpp \
+    core/com_object/UIObject.cpp \
+    core/elements/QtElement.cpp \
+    core/elements/QtElementSetAttributeAction.cpp \
+    core/elements/QtElementStyle.cpp \
+    core/elements/layouts/BaseLayout.cpp \
+    core/elements/layouts/ColumnLayout.cpp \
+    core/elements/widgets/BaseWidgetElement.cpp \
+    core/elements/widgets/QtLineEdit.cpp \
+    core/elements/widgets/custom/CountConnection.cpp \
+    core/elements/widgets/custom/QWidgetCustom.cpp \
+    core/elements/widgets/custom/QWindowCustom.cpp \
+    core/elements/widgets/events/BaseQObjectConvert.cpp \
+    core/elements/widgets/events/QOFocusEvent.cpp \
+    core/elements/widgets/events/QOKeyEvent.cpp \
+    core/elements/widgets/events/QOMouseEvent.cpp \
+    core/elements/widgets/events/QOPoint.cpp \
+    core/elements/widgets/events/QOPointF.cpp \
+    core/elements/widgets/events/QOResizeEvent.cpp \
+    core/elements/widgets/QtButton.cpp \
+    core/elements/widgets/QtWidget.cpp \
+    core/elements/widgets/QtWindow.cpp \
+    core/elements/layouts/RowLayout.cpp \
+    core/elements/widgets/events/QOSize.cpp \
+    core/extensions/BaseExtension.cpp \
+    core/extensions/QtElementExtensions.cpp
 
 HEADERS += \
     App.h \
     Au3.h \
+    COExports.h \
     EnumDefine.h \
     Qt_DLL_global.h \
     Utils.h \
-    com_object/AllComObject.h \
-    com_object/BaseObject.h \
-    com_object/CArray.h \
-    com_object/CObject.h \
-    com_object/CParams.h \
-    com_object/CVariant.h \
-    com_object/CDebugger.h \
-    com_object/UIObject.h \
-    elements/layouts/BaseLayout.h \
-    elements/widgets/BaseWidgetElement.h \
-    elements/QtElement.h \
-    elements/widgets/custom/CountConnection.h \
-    elements/widgets/events/BaseQObjectConvert.h \
-    elements/widgets/events/QOFocusEvent.h \
-    elements/widgets/events/QOKeyEvent.h \
-    elements/widgets/events/QOMouseEvent.h \
-    elements/widgets/events/QOPoint.h \
-    elements/widgets/events/QOPointF.h \
-    elements/widgets/events/QOResizeEvent.h \
-    elements/widgets/QtButton.h \
-    elements/widgets/QtWidget.h \
-    elements/widgets/QtWindow.h \
-    elements/layouts/RowLayout.h \
-    elements/widgets/custom/QWidgetCustom.h \
-    elements/widgets/custom/QWindowCustom.h \
-    elements/widgets/custom/QtPushButton.h \
-    elements/widgets/events/QOSize.h \
-    exports.h \
-    extensions/BaseExtension.h \
-    extensions/QtElementExtensions.h
+    core/enums/KeyEnum.h \
+    core/enums/MouseButtonEnum.h \
+    core/enums/QSizePolicyEnum.h \
+    core/enums/QtEnums.h \
+    core/com_object/AllComObject.h \
+    core/com_object/BaseObject.h \
+    core/com_object/CArray.h \
+    core/com_object/CObject.h \
+    core/com_object/CParams.h \
+    core/com_object/CVariant.h \
+    core/com_object/CDebugger.h \
+    core/com_object/UIObject.h \
+    core/elements/QtElementSetAttributeAction.h \
+    core/elements/QtElementStyle.h \
+    core/elements/QtElement.h \
+    core/elements/layouts/ColumnLayout.h \
+    core/elements/layouts/BaseLayout.h \
+    core/elements/widgets/QtLineEdit.h \
+    core/elements/widgets/BaseWidgetElement.h \
+    core/elements/widgets/custom/CountConnection.h \
+    core/elements/widgets/events/BaseQObjectConvert.h \
+    core/elements/widgets/events/QOFocusEvent.h \
+    core/elements/widgets/events/QOKeyEvent.h \
+    core/elements/widgets/events/QOMouseEvent.h \
+    core/elements/widgets/events/QOPoint.h \
+    core/elements/widgets/events/QOPointF.h \
+    core/elements/widgets/events/QOResizeEvent.h \
+    core/elements/widgets/QtButton.h \
+    core/elements/widgets/QtWidget.h \
+    core/elements/widgets/QtWindow.h \
+    core/elements/layouts/RowLayout.h \
+    core/elements/widgets/custom/QWidgetCustom.h \
+    core/elements/widgets/custom/QWindowCustom.h \
+    core/elements/widgets/events/QOSize.h \
+    core/extensions/BaseExtension.h \
+    core/extensions/QtElementExtensions.h
 
 # Default rules for deployment.
 unix {
@@ -92,6 +103,8 @@ equals(ISRELEASE, 1){
 }else{
     CONFIG += qml_debug
     DEFINES += _RE_DEV
+#    RESOURCES += \
+#        ../../ui/app.qrc
     message(dev mode)
 }
 

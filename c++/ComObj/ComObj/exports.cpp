@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "exports.h"
 #include "comobj.h"
+#include <iostream>
 
 using namespace std;
 
-LPDISPATCH initComObjectMethod(void** methods, void* data)
+LPDISPATCH initComObjectMethod(void* data)
 {
-    auto obj = new ComObject(data, methods);
+    auto obj = new ComObject(data);
     return obj;
 }
 
@@ -44,3 +45,7 @@ void freeString(VARIANT* v)
 void** getAllMethods() {
     return dllMethods;
 }
+
+void setMethodsEvents(void** methods) {
+    ComObject::methods = methods;
+};

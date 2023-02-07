@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "comobj.h"
 
-ComObject::ComObject(void* data, void** methods)
+ComObject::ComObject(void* data)
 {
     this->data = data;
-    this->methods = methods;
 }
 
 ComObject::~ComObject() {
@@ -51,7 +50,9 @@ HRESULT __stdcall ComObject::GetTypeInfo(UINT iTInfo, LCID lcid, ITypeInfo** ppT
 
 HRESULT __stdcall ComObject::GetIDsOfNames(const IID& riid, LPOLESTR* rgszNames, UINT cNames, LCID lcid, DISPID* rgDispId)
 {
-    *rgDispId = ((TGetIDMethod)methods[Methods::getID])(data, rgszNames[0]);
+    auto index = ++autoKey;
+    *rgDispId = autoKey;
+    mapKey[*rgDispId] = *rgszNames;
     return S_OK;
 }
 
@@ -59,7 +60,8 @@ HRESULT __stdcall ComObject::Invoke(DISPID dispIdMember, const IID& riid, LCID l
 {
     if (wFlags & DISPATCH_METHOD || wFlags & DISPATCH_PROPERTYGET)
     {
-        ((TExecuteMethod)methods[Methods::execute])(data, dispIdMember, pDispParams, pVarResult);
-        return S_OK;
+        ((TExecuteMethod)methods[Methods::onExecute])(data, (wchar_t*)mapKey[dispIdMember].c_str(), pDispParams, pVarResult);
     }
+    mapKey.erase(dispIdMember);
+    return S_OK;
 }

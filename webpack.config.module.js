@@ -7,23 +7,25 @@ const isProduction = argv.findIndex((v) => v === "--mode=production") !== -1
 const mode = isProduction
 	? {
 		mode: 'production',
-		watch: false
+		watch: false,
+		devtool: false,
 	}
 	: {
 		mode: 'development',
-		watch: false
+		watch: false,
+		devtool: 'inline-source-map',
 	};
 
 module.exports = {
 	...mode,
 	entry: {
-		main: "./ui-src/modules.js"
+		modules: "./ui-src/modules.js",
+		core: "./ui-src/core.js"
 	},
 	output: {
 		path: path.dirname(config.targetJS),
-		filename: `module${isProduction ? '' : '.dev'}.bundle.js`,
+		filename: `${isProduction ? 'build' : 'dev'}/[name].js`,
 	},
-	devtool: false,
 	resolve: {
 		extensions: [".js", ".ts", ".tsx", ".jsx"],
 	},

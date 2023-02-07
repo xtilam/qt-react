@@ -1,0 +1,21 @@
+/*!*******************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./ui-src/styles/style.scss ***!
+  \*******************************************************************************************************************/
+* {
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 500;
+  border-radius: "app.rcPath()";
+  font-family: monospace;
+}
+
+.QPushButton {
+  background-color: rgb(29, 50, 165);
+  color: white;
+  background-image: "app.rcPath()";
+}
+.QPushButton:hover {
+  background-color: rgb(7, 138, 53);
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGV2L21haW4uY3NzIiwibWFwcGluZ3MiOiI7OztBQUFBO0VBQ0M7RUFDQTtFQUNBO0VBQ0E7RUFDQTtBQUNEOztBQUNBO0VBQ0M7RUFDQTtFQUlBO0FBREQ7QUFGQztFQUNDO0FBSUYsQyIsInNvdXJjZXMiOlsid2VicGFjazovL3F0LXJlYWN0Ly4vdWktc3JjL3N0eWxlcy9zdHlsZS5zY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIip7XHJcblx0Zm9udC1zaXplOiAxNnB4O1xyXG5cdHBhZGRpbmc6IDEwcHg7XHJcblx0Zm9udC13ZWlnaHQ6IDUwMDtcclxuXHRib3JkZXItcmFkaXVzOiAnYXBwLnJjUGF0aCgpJztcclxuXHRmb250LWZhbWlseTogbW9ub3NwYWNlO1xyXG59XHJcbi5RUHVzaEJ1dHRvbntcclxuXHRiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjksIDUwLCAxNjUpO1xyXG5cdGNvbG9yOiB3aGl0ZTtcclxuXHQmOmhvdmVye1xyXG5cdFx0YmFja2dyb3VuZC1jb2xvcjogcmdiKDcsIDEzOCwgNTMpO1xyXG5cdH1cclxuXHRiYWNrZ3JvdW5kLWltYWdlOiAnYXBwLnJjUGF0aCgpJztcclxufVxyXG4vLyAuY29uc29sZS12aWV3e1xyXG4vLyBcdG1pbi13aWR0aDogODAwO1xyXG4vLyBcdGJhY2tncm91bmQtY29sb3I6IHJlZDtcclxuLy8gXHR7XHJcbi8vIFx0XHRtYXJnaW46IDNweCAxMHB4O1xyXG4vLyBcdFx0Ym9yZGVyLXJhZGl1czogMTAlO1xyXG4vLyBcdFx0YmFja2dyb3VuZC1jb2xvcjogcmdiKDMxLCA1NywgMTU5KTtcclxuLy8gXHRcdGNvbG9yOiB3aGl0ZTtcclxuLy8gXHRcdCY6aG92ZXJ7XHJcbi8vIFx0XHRcdGJhY2tncm91bmQtY29sb3I6IHJnYig2LCAxMjQsIDUzKTtcclxuLy8gXHRcdH1cclxuLy8gXHR9XHJcbi8vIH1cclxuLy8gLnRpdGxlLWJhcntcclxuLy8gXHRiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMTUsIDMyLCA5OCk7XHJcbi8vIFx0Y29sb3I6IHdoaXRlO1xyXG4vLyB9XHJcblxyXG5cclxuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9*/

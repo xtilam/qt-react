@@ -1,1 +1,1 @@
-// declare var React: React
+declare var au3

@@ -3,29 +3,33 @@
 
 #include <oaidl.h>
 #include <atomic>
+#include <map>
+#include <iostream>
 
 
 using namespace std;
+
 
 class ComObject : public IDispatch
 {
 public:
     typedef void(*TDeleteMethod)(void* data);
-    typedef long(*TGetIDMethod)(void* data, wchar_t*);
-    typedef void(*TExecuteMethod)(void* data, long id, DISPPARAMS* pDispParams, VARIANT* pVarResult);
-    inline static const VARIANT* NULL_VARIANT = new VARIANT{ VT_EMPTY };
+    typedef void(*TExecuteMethod)(void* data, wchar_t * key, DISPPARAMS* pDispParams, VARIANT* pVarResult);
 
-    void** methods;
+    inline static const VARIANT* NULL_VARIANT = new VARIANT{ VT_EMPTY };
+    map<short, wstring> mapKey; 
+    unsigned short autoKey = 0;
+
+    inline static void** methods = nullptr;
     void* data;
 
     enum Methods {
         onDelete,
-        getID,
-        execute,
+        onExecute,
     };
 
 
-    ComObject(void* data, void** methods);
+    ComObject(void* data);
     ~ComObject();
 
     std::atomic<int> m_ref = 0;

@@ -14,7 +14,7 @@ async function main() {
 
 
     watcherFiles()
-    spawnExec('node', [path.join(__dirname, 'watch-qml.js')])
+    spawnExec('node', [path.join(__dirname, 'watch-resouce.js')])
     watchAU3()
 
     function watchAU3() {

@@ -36,10 +36,10 @@ const config = {
             path.join(__dirname, 'c++/_release/release/QtDLL.dll'),
             path.join(__dirname, 'bin/qml.dll')
         ],
-        // [
-        //     path.join(__dirname, 'c++/ComObj/x64/Release/ComObj.dll'),
-        //     path.join(__dirname, 'bin/obj.dll')
-        // ],
+        [
+            path.join(__dirname, 'c++/ComObj/x64/Release/ComObj.dll'),
+            path.join(__dirname, 'bin/obj.dll')
+        ],
         // [
         //     path.join(__dirname, 'c++/Au3Start/x64/Release/Au3Start.exe'),
         //     path.join(__dirname, 'bin/app.exe')
