@@ -10,8 +10,6 @@ main()
 async function main() {
     let au3Process;
     let isStartApp = false
-    const autoIt3WrapperAu3Path = path.join(config.au3Path, 'SciTE/AutoIt3Wrapper/AutoIt3Wrapper.au3')
-
 
     watcherFiles()
     spawnExec('node', [path.join(__dirname, 'watch-resouce.js')])
@@ -21,8 +19,8 @@ async function main() {
         runAu3()
         const mon = nodemon({
             exec: ` `,
-            watch: path.join(config.mainAu3Path, '..'),
-            ext: 'au3',
+            watch: path.join(config.mainAhkPath, '..'),
+            ext: '.ahk',
             stdout: true,
             stdin: true
         })
@@ -52,14 +50,8 @@ async function main() {
             }
             
             setTimeout(()=>{
-				let currentProcess = spawnExec(path.join(config.au3Path, 'AutoIt3_x64.exe'), [
-					autoIt3WrapperAu3Path,
-					'/run',
-					'/x64',
-					'/prod',
-					'/ErrorStdOut',
-					'/in',
-					`${config.mainAu3Path}`,
+				let currentProcess = spawnExec(path.join(config.ahkPath, 'AutoHotkey64.exe'), [
+					`${config.mainAhkPath}`,
 				],
 					{
 						env: config.au3DevEnv,
